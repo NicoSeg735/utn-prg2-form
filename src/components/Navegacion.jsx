@@ -9,9 +9,9 @@ export default function Navegacion() {
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="#">
+        <Link className="navbar-brand" to="/">
           PERSONAS
-        </a>
+        </Link>
         <button
           className="navbar-toggler"
           type="button"
@@ -30,7 +30,6 @@ export default function Navegacion() {
               <Link
                 to="/PersonaAlta"
                 className="nav-link"
-                href="#"
                 onClick={() => fncClick("alta")}
               >
                 Alta
@@ -43,7 +42,6 @@ export default function Navegacion() {
               <Link
                 to="/PersonasLista"
                 className="nav-link"
-                href="#"
                 onClick={() => fncClick("lista")}
               >
                 Lista

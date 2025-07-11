@@ -14,6 +14,7 @@ export default function App() {
             <Routes>
               <Route path="PersonaAlta" element={<PersonaAlta />} />
               <Route path="PersonasLista" element={<PersonasLista />} />
+              <Route path="/" element={<PersonasLista />} />
             </Routes>
           </BrowserRouter>
         </div>
