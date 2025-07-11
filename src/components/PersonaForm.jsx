@@ -1,47 +1,95 @@
 import { useState, useContext } from "react";
 import { dataContextCategorias } from "../context/dataContext";
+import { toast } from "./toast";
 
-export default function PersonaForm({ persona, setPersona, fncEnviar }) {
+export default function PersonaForm({ fncEnviar, isEditing = false }) {
   // categorias: resultado del filtrado por SEXO de contextDataCategorias.
   const [categorias, setCategorias] = useState([]);
   const contextDataCategorias = useContext(dataContextCategorias);
 
+  const [persona, setPersona] = useState({
+    apellido: "",
+    nombre: "",
+    dni: "",
+    fecha_nacimiento: "",
+    sexo: "",
+    categoria: "",
+    telefono: "",
+    mail: "",
+    observaciones: "",
+  });
+
   function fncForm(e) {
-    switch (e.target.id) {
-      case "dni":
-        if (dni.length == 8) {
+    if (isEditing) {
+      switch (e.target.id) {
+        case "dni":
+          if (persona.dni.length == 8) {
+            setPersona({
+              ...persona,
+              [e.target.id]: e.target.value.substring(0, 8),
+            });
+          } else {
+            setPersona({ ...persona, [e.target.id]: e.target.value });
+          }
+          break;
+  
+        case "sexo":
           setPersona({
             ...persona,
-            [e.target.id]: e.target.value.substring(0, 8),
+            [e.target.id]: e.target.value,
+            categoria: "",
           });
-        } else {
+          setCategorias([
+            { descripcion: "Seleccione", categoria: "" },
+            ...contextDataCategorias.filter(
+              (item) => item.sexo == e.target.value
+            ),
+          ]);
+          // no lo puedo cambia para que vuelva a el OPTION Selecciones
+          e.target.selectedIndex = 0;
+          break;
+        default:
           setPersona({ ...persona, [e.target.id]: e.target.value });
-        }
-        break;
-
-      case "sexo":
-        setPersona({
-          ...persona,
-          [e.target.id]: e.target.value,
-          categoria: "",
-        });
-        setCategorias([
-          { descripcion: "Seleccione", categoria: "" },
-          ...contextDataCategorias.filter(
-            (item) => item.sexo == e.target.value
-          ),
-        ]);
-        // no lo puedo cambia para que vuelva a el OPTION Selecciones
-        e.target.selectedIndex = 0;
-        break;
-      default:
-        setPersona({ ...persona, [e.target.id]: e.target.value });
+      }
     }
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const { apellido, nombre, dni, sexo, telefono } = e.target;
+
+    if (apellido.value.length === 0) {
+      toast("Complete el Apellido.", "error");
+      return;
+    }
+    // valido NOMBRE
+    if (nombre.value.length === 0) {
+      toast("Complete el Nombre.", "error");
+      return;
+    }
+    // valido DNI
+    if (dni.value.length === 0) {
+      toast("Complete el Dni.", "error");
+      return;
+    }
+    // valido SEXO
+    if (sexo.value === "") {
+      toast("Complete el Sexo.", "error");
+      return;
+    }
+    // valido TELEFONO
+    if (telefono.value.length === 0) {
+      toast("Complete el Telefono.", "error");
+      return;
+    }
+
+
+    fncEnviar(persona);
   }
 
   return (
     <div className="container-fluid col-12 mt-4 p-4 ">
-      <form name="form1" onSubmit={fncEnviar}>
+      <form name="form1" onSubmit={handleSubmit}>
         <div className="row">
           <div className="col-4">
             <label>Apellido</label>
@@ -56,6 +104,7 @@ export default function PersonaForm({ persona, setPersona, fncEnviar }) {
               autoComplete="off"
               value={persona.apellido}
               onChange={fncForm}
+              disabled={!isEditing}
             ></input>
           </div>
         </div>
@@ -73,6 +122,7 @@ export default function PersonaForm({ persona, setPersona, fncEnviar }) {
               autoComplete="off"
               value={persona.nombre}
               onChange={fncForm}
+              disabled={!isEditing}
             ></input>
           </div>
         </div>
@@ -89,6 +139,7 @@ export default function PersonaForm({ persona, setPersona, fncEnviar }) {
               autoComplete="off"
               value={persona.dni}
               onChange={fncForm}
+              disabled={!isEditing}
             ></input>
           </div>
         </div>
@@ -103,6 +154,7 @@ export default function PersonaForm({ persona, setPersona, fncEnviar }) {
               className="form-control"
               value={persona.fecha_nacimiento}
               onChange={fncForm}
+              disabled={!isEditing}
             ></input>
           </div>
         </div>

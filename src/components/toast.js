@@ -1,9 +1,9 @@
-import { toast } from "react-toastify";
+import { toast as toastReact } from "react-toastify";
 
-export function useToast(msj, tipoMsj) {
+export function toast(msj, tipoMsj) {
   switch (tipoMsj) {
     case "ok":
-      toast.success(msj, {
+      toastReact.success(msj, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -15,7 +15,7 @@ export function useToast(msj, tipoMsj) {
       });
       break;
     case "error":
-      toast.warn(msj, {
+      toastReact.warn(msj, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -27,7 +27,7 @@ export function useToast(msj, tipoMsj) {
       });
       break;
     default:
-      toast(msj, {
+      toastReact(msj, {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: false,

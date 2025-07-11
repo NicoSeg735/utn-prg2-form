@@ -1,7 +1,7 @@
 import { useState, useContext } from "react";
 import { dataContextPersonas } from "../context/dataContext";
 import { ToastContainer } from "react-toastify";
-import { useToast } from "./useToast";
+import { toast } from "./toast";
 import PersonasListaTabla from "./PersonasListaTabla";
 import PersonasModif from "./PersonasModif";
 import PersonasVer from "./PersonasVer";
@@ -17,7 +17,7 @@ export default function PersonasLista() {
     setContextDataPersonas(
       contextDataPersonas.filter((persona) => persona.id !== id)
     );
-    useToast("id:" + id + " eliminado", "error");
+    toast("id:" + id + " eliminado", "error");
   }
 
   function fncVer(id) {
