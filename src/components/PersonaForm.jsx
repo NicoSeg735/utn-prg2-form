@@ -1,11 +1,12 @@
-import { useState, useContext } from "react";
-import { dataContextCategorias } from "../context/dataContext";
+import { useState } from "react";
+
 import { toast } from "./toast";
+import { categoriasData } from "../mocks/categorias";
+import Modal from "./ui/Modal";
 
 export default function PersonaForm({ fncEnviar, isEditing = false }) {
   // categorias: resultado del filtrado por SEXO de contextDataCategorias.
   const [categorias, setCategorias] = useState([]);
-  const contextDataCategorias = useContext(dataContextCategorias);
 
   const [persona, setPersona] = useState({
     apellido: "",
@@ -41,7 +42,7 @@ export default function PersonaForm({ fncEnviar, isEditing = false }) {
           });
           setCategorias([
             { descripcion: "Seleccione", categoria: "" },
-            ...contextDataCategorias.filter(
+            ...categoriasData.filter(
               (item) => item.sexo == e.target.value
             ),
           ]);
@@ -54,42 +55,40 @@ export default function PersonaForm({ fncEnviar, isEditing = false }) {
     }
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    const { apellido, nombre, dni, sexo, telefono } = e.target;
+  function aceptarModal() {
+    const { apellido, nombre, dni, sexo, telefono } = persona;
 
-    if (apellido.value.length === 0) {
+    if (apellido.length === 0) {
       toast("Complete el Apellido.", "error");
       return;
     }
     // valido NOMBRE
-    if (nombre.value.length === 0) {
+    if (nombre.length === 0) {
       toast("Complete el Nombre.", "error");
       return;
     }
     // valido DNI
-    if (dni.value.length === 0) {
+    if (dni.length === 0) {
       toast("Complete el Dni.", "error");
       return;
     }
     // valido SEXO
-    if (sexo.value === "") {
+    if (sexo === "") {
       toast("Complete el Sexo.", "error");
       return;
     }
     // valido TELEFONO
-    if (telefono.value.length === 0) {
+    if (telefono.length === 0) {
       toast("Complete el Telefono.", "error");
       return;
     }
-
 
     fncEnviar(persona);
   }
 
   return (
     <div className="container-fluid col-12 mt-4 p-4 ">
-      <form name="form1" onSubmit={handleSubmit}>
+      <form name="form1">
         <div className="row">
           <div className="col-4">
             <label>Apellido</label>
@@ -252,9 +251,10 @@ export default function PersonaForm({ fncEnviar, isEditing = false }) {
         <div className="row mt-2">
           <div className="col-4"></div>
           <div className="col-8">
-            <button className="btn btn-primary btn-ancho1 btn-sm">
+            {/* <button className="btn btn-primary btn-ancho1 btn-sm">
               Enviar
-            </button>
+            </button> */}
+            <Modal btnLabel="Enviar" fncAceptar={aceptarModal} />
           </div>
         </div>
       </form>

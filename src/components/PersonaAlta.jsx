@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { dataContextPersonas } from "../context/dataContext";
+import PersonasContext from "../contexts/PersonasContext/PersonasContext";
 import { toast } from "./toast";
 import { ToastContainer } from "react-toastify";
 import PersonasVistaRapida from "./PersonasVistaRapida";
@@ -11,7 +11,7 @@ export default function PersonaAlta() {
   const [personasLista, setPersonasLista] = useState([]);
 
   const { agregarPersona } =
-    useContext(dataContextPersonas);
+    useContext(PersonasContext);
 
   function fncEnviar(personaSinId) {
     // actualizo en contexto, le agrego la persona ingresada:

@@ -1,5 +1,5 @@
 import { useState, useContext } from "react";
-import { dataContextPersonas } from "../context/dataContext";
+import PersonasContext from "../contexts/PersonasContext/PersonasContext";
 import { ToastContainer } from "react-toastify";
 import { toast } from "./toast";
 import PersonasListaTabla from "./PersonasListaTabla";
@@ -10,7 +10,7 @@ export default function PersonasLista() {
   const [vista, setVista] = useState("lista");
   const [id, setId] = useState(0);
   const { contextDataPersonas, setContextDataPersonas } =
-    useContext(dataContextPersonas);
+    useContext(PersonasContext);
 
   function fncEliminar(id) {
     // borro un ITEM
